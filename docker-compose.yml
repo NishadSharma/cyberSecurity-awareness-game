@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: cyberguard-db
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: cyberguard
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - cyberguard-network
+
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: cyberguard-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      MONGODB_URI: mongodb://admin:password123@mongodb:27017/cyberguard?authSource=admin
+      JWT_ACCESS_SECRET: your-super-secret-access-key-change-in-production
+      JWT_REFRESH_SECRET: your-super-secret-refresh-key-change-in-production
+      PORT: 3001
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongodb
+    networks:
+      - cyberguard-network
+
+  # Frontend Application
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: cyberguard-frontend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - cyberguard-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  cyberguard-network:
+    driver: bridge

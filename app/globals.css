@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Custom cyberpunk styles */
+.cyberpunk-glow {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+}
+
+.neon-text {
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.8);
+}
+
+.grid-pattern {
+  background-image: 
+    linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-glow {
+  from {
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+  }
+  to {
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+  }
+}
+
+.cyber-border {
+  position: relative;
+}
+
+.cyber-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid transparent;
+  background: linear-gradient(45deg, #06b6d4, #10b981) border-box;
+  border-radius: inherit;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
